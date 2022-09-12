@@ -40,8 +40,8 @@ pub struct Citizen {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Title {
-    icon: Url,
-    value: String,
+    pub icon: Url,
+    pub value: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -59,8 +59,8 @@ pub enum Organization {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct OrganizationRank {
-    name: String,
-    value: u8,
+    pub name: String,
+    pub value: u8,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
