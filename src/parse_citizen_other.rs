@@ -1,6 +1,6 @@
+use chrono::{DateTime, TimeZone, Utc};
 use log::error;
 use scraper::{ElementRef, Selector};
-use time::{macros::format_description, macros::time, Date, OffsetDateTime};
 
 use crate::error::ScScrapingError;
 
@@ -11,7 +11,7 @@ enum OtherValue {
 }
 
 pub(crate) struct OtherData {
-    pub enlisted: OffsetDateTime,
+    pub enlisted: DateTime<Utc>,
     pub location: Vec<String>,
     pub languages: Vec<String>,
 }
@@ -110,24 +110,25 @@ fn parse_data<'a>(element: &ElementRef) -> Result<OtherData, ScScrapingError<'a>
         }
     }
 
-    let enlisted_value = enlisted.ok_or_else(|| {
+    let enlisted_value = enlisted.map(|e| format!("{e} 00:00:00")).ok_or_else(|| {
         let message = "Enlisted date not found";
         error!("{message}");
         ScScrapingError::citizen(message)
     })?;
 
-    let date_format = format_description!("[month repr:short] [day padding:none], [year]");
-    let enlisted_parsed = Date::parse(&enlisted_value, date_format).map_err(|e| {
-        let message = format!("Error parsing the date `{}`: {}", &enlisted_value, e);
+    let enlisted_parsed = Utc
+        .datetime_from_str(&enlisted_value, "%b %e, %Y %T")
+        .map_err(|e| {
+            let message = format!("Error parsing the date `{}`: {}", &enlisted_value, e);
 
-        error!("{message}");
-        ScScrapingError::citizen(message)
-    })?;
+            error!("{message}");
+            ScScrapingError::citizen(message)
+        })?;
 
-    let enlisted_utc = enlisted_parsed.with_time(time!(0:00)).assume_utc();
+    println!("{enlisted_parsed}");
 
     let data = OtherData {
-        enlisted: enlisted_utc,
+        enlisted: enlisted_parsed,
         location,
         languages,
     };

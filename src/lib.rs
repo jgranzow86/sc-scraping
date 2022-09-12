@@ -1,9 +1,9 @@
 use std::collections::HashMap;
 
+use chrono::{DateTime, Utc};
 use log::error;
 use scraper::{Html, Selector};
 use serde::{Deserialize, Serialize};
-use time::OffsetDateTime;
 use url::Url;
 
 mod error;
@@ -24,8 +24,7 @@ pub struct Citizen {
     pub moniker: String,
     pub handle: String,
     pub title: Title,
-    #[serde(with = "time::serde::iso8601")]
-    pub enlisted: OffsetDateTime,
+    pub enlisted: DateTime<Utc>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub citizen_record_number: Option<u64>,
     pub avatar: Url,

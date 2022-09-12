@@ -9,5 +9,5 @@ edition = "2021"
 log = "0.4.17"
 scraper = "0.13.0"
 serde = { version = "1.0.142 ", features = ["derive"] }
-time = { version = "0.3.14", features = ["macros", "serde-well-known"] }
+chrono = { version = "0.4.22", features = ["serde"] }
 url = { version = "2.2.2", features = ["serde"] }
