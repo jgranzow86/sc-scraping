@@ -2,6 +2,12 @@
 name = "sc-scraping"
 version = "0.1.0"
 edition = "2021"
+description = "Utility functions and structures to scrape data from the Roberts Space Industries website"
+homepage = "https://github.com/devnought/sc-scraping"
+keywords = ["star", "citizen", "rsi"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/devnought/sc-scraping"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
